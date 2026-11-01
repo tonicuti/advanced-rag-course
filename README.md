@@ -2,7 +2,7 @@
 
 This package answers questions with a LangGraph workflow. A router chooses the local document index or web search. Retrieved documents are graded before an Ollama model drafts an answer; two further graders check whether the answer is supported by the documents and addresses the question.
 
-![Question-answering workflow](static/graph.png)
+![Question-answering workflow](src/agentic_rag/static/Langgraph Adaptive Rag.png)
 
 ## Workflow
 
