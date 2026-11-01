@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from pathlib import Path
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_unstructured import UnstructuredLoader
@@ -6,6 +7,8 @@ from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
 
 load_dotenv()
+
+CHROMA_DIR = str(Path(__file__).resolve().parent / ".chroma")
 
 urls = [
     "https://lilianweng.github.io/posts/2023-06-23-agent/",
@@ -23,15 +26,15 @@ text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
 
 docs_split = text_splitter.split_documents(docs_list)
 
-vectorstore = Chroma.from_documents(
-    documents = docs_split,
-    collection_name = "advanced-rag-chroma",
-    embedding = OllamaEmbeddings(model = "embeddinggemma:latest"),
-    persist_directory = "./.chroma",
-)
+# vectorstore = Chroma.from_documents(
+#     documents = docs_split,
+#     collection_name = "advanced-rag-chroma",
+#     embedding = OllamaEmbeddings(model = "embeddinggemma:latest"),
+#     persist_directory = CHROMA_DIR,
+# )
 
 retriever = Chroma(
     collection_name = "advanced-rag-chroma",
     embedding_function = OllamaEmbeddings(model = "embeddinggemma:latest"),
-    persist_directory = "./.chroma",
+    persist_directory = CHROMA_DIR,
 ).as_retriever()
